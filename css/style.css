@@ -1,0 +1,86 @@
+body {
+  background: #e0f7fa;
+  text-align: center;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* ===== ホーム画面 ===== */
+#home {
+  margin-top: 40px;
+}
+
+.stageBtn {
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+/* ===== ゲーム画面 ===== */
+#game {
+  position: relative;
+  width: 900px;
+  height: 300px;
+  margin: 20px auto;
+
+  background-image: url('../background.png');
+  background-size: cover;
+  background-position: center;
+
+  border: 3px solid #333;
+  overflow: hidden;
+}
+
+/* プレイヤー */
+#player {
+  position: absolute;
+  bottom: 0;
+  left: 60px;
+  width: 60px;
+  height: 60px;
+  background: url('../capybara.png') no-repeat center / contain;
+}
+
+/* 障害物 */
+#obstacle {
+  position: absolute;
+  bottom: 0;
+  left: 900px;
+  width: 60px;
+  height: 60px;
+  background: url('../poop.png') no-repeat center / contain;
+}
+
+/* アイテム */
+#item {
+  position: absolute;
+  bottom: 0;
+  left: 900px;
+  width: 40px;
+  height: 40px;
+  background: url('../food.png') no-repeat center / contain;
+  display: none;
+}
+
+/* スタートボタン */
+#startBtn {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* カウントダウン */
+#countdown {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: red;
+  display: none;
+}
