@@ -1,5 +1,29 @@
 // game.js
 
+// ===============================
+// ステージ判定
+// ===============================
+
+const params = new URLSearchParams(location.search);
+const stageNumber = Number(params.get("stage")) || 1;
+
+console.log("現在のステージ:", stageNumber);
+
+window.stageSettings = {
+  speedMultiplier: 1,
+  spawnRate: 1
+};
+
+const stageConfig = {
+  1: { speedMultiplier: 1, spawnRate: 1 },
+  2: { speedMultiplier: 1.5, spawnRate: 1.3 }
+};
+
+window.stageSettings = stageConfig[stageNumber] || stageConfig[1];
+
+const title = document.getElementById("stageTitle");
+title.textContent = "🦫 Stage " + stageNumber + " 🦫";
+
 const startBtn = document.getElementById("startBtn");
 const countdownText = document.getElementById("countdown");
 const scoreText = document.getElementById("score");
@@ -8,11 +32,9 @@ const scoreText = document.getElementById("score");
 // デバッグ用（宣言のあとならOK）
 console.log("startBtn:", startBtn);
 
-// URLからステージ番号を取得
-const params = new URLSearchParams(location.search);
-let currentStage = Number(params.get("stage")) || 1;
 
-let score = 0;
+
+window.score = 0;
 let gameInterval;
 let countdown = 3;
 
@@ -40,27 +62,23 @@ startBtn.addEventListener("click", () => {
 /* ===== ゲーム開始 ===== */
 function startGame() {
 
-  score = 0;
-  scoreText.textContent = score;
+  window.score = 0;
+  scoreText.textContent = window.score;
 
-  // ステージ別スピード設定
-  if (currentStage === 2) {
-    currentType.speed = 9;
-  } else {
-    currentType.speed = 6;
-  }
 
   gameInterval = setInterval(() => {
 
     updatePlayer();
 
     let left = obstacle.offsetLeft;
-    obstacle.style.left = left - currentType.speed + "px";
+    obstacle.style.left =
+    left - currentType.speed * window.stageSettings.speedMultiplier + "px";
+
 
     if (left < -60) {
       resetObstacle();
-      score++;
-      scoreText.textContent = score;
+      window.score++;
+      scoreText.textContent = window.score;
 
       if (Math.random() < 0.3 && !itemActive) {
         spawnItem();
@@ -71,7 +89,7 @@ function startGame() {
 
     if (isHit()) {
       clearInterval(gameInterval); // ★ループ停止
-      alert("ゲームオーバー！ スコア：" + score);
+      alert("ゲームオーバー！ スコア：" + window.score);
       location.href = "index.html";
     }
 

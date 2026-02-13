@@ -29,25 +29,32 @@ window.jump = function () {
   isJumping = true;
 
   const up = setInterval(() => {
+
+    window.position += JUMP_UP_SPEED;
+
     if (
       (!window.isJumpKeyPressed && window.position >= JUMP_MIN_HEIGHT) ||
       window.position >= JUMP_MAX_HEIGHT
     ) {
-      clearInterval(up);
+      clearInterval(up); // ← ★これが超重要
 
       const down = setInterval(() => {
+
+        window.position -= JUMP_DOWN_SPEED;
+
         if (window.position <= 0) {
-          clearInterval(down);
           window.position = 0;
+          clearInterval(down);
           isJumping = false;
         }
-        window.position -= JUMP_DOWN_SPEED;
+
         player.style.bottom = window.position + 'px';
+
       }, 20);
     }
 
-    window.position += JUMP_UP_SPEED;
     player.style.bottom = window.position + 'px';
+
   }, 20);
 };
 
@@ -55,6 +62,9 @@ window.jump = function () {
 const game = document.getElementById("game");
 
 window.updatePlayer = function () {
+  console.log("GAME_WIDTH:", game.clientWidth);
+  console.log("moveLeft:", window.moveLeft);
+  console.log("playerX:", window.playerX);
 
   const GAME_WIDTH = game.clientWidth; // ★ここを動的取得にする
 
@@ -75,30 +85,17 @@ window.updatePlayer = function () {
   player.style.left = window.playerX + "px";
   console.log(window.moveLeft, window.moveRight);
 
+
 };
 
-document.addEventListener("keydown", (e) => {
-  if (e.code === "ArrowLeft") window.moveLeft = true;
-  if (e.code === "ArrowRight") window.moveRight = true;
-  if (e.code === "Space") {
-    window.isJumpKeyPressed = true;
-    window.jump();
-  }
-});
-
-document.addEventListener("keyup", (e) => {
-  if (e.code === "ArrowLeft") window.moveLeft = false;
-  if (e.code === "ArrowRight") window.moveRight = false;
-  if (e.code === "Space") window.isJumpKeyPressed = false;
-});
 /* ===== キー操作 ===== */
 document.addEventListener("keydown", (e) => {
 
-  if (e.code === "ArrowLeft") {
+  if (e.code === "ArrowLeft" || e.code === "KeyA") {
     window.moveLeft = true;
   }
 
-  if (e.code === "ArrowRight") {
+  if (e.code === "ArrowRight" || e.code === "KeyD") {
     window.moveRight = true;
   }
 
@@ -110,11 +107,11 @@ document.addEventListener("keydown", (e) => {
 
 document.addEventListener("keyup", (e) => {
 
-  if (e.code === "ArrowLeft") {
+  if (e.code === "ArrowLeft" || e.code === "KeyA") {
     window.moveLeft = false;
   }
 
-  if (e.code === "ArrowRight") {
+  if (e.code === "ArrowRight" || e.code === "KeyD") {
     window.moveRight = false;
   }
 

@@ -1,3 +1,6 @@
+window.score = 0;
+window.scoreText = document.getElementById('score');
+
 const item = document.getElementById('item');
 
 window.itemActive = false;
