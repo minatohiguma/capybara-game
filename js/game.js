@@ -62,10 +62,21 @@ startBtn.addEventListener("click", () => {
 /* ===== ゲーム開始 ===== */
 function startGame() {
 
+  position = 0;
+  player.style.bottom = "0px";
+  player.style.left = "50px";
+
+
   window.score = 0;
   scoreText.textContent = window.score;
 
+  resetObstacle();
+  const game = document.getElementById("game");
+  obstacle.style.left = game.clientWidth + "px";
 
+
+  item.style.left = "-100px";
+  itemActive = false;
   gameInterval = setInterval(() => {
 
     updatePlayer();
@@ -86,12 +97,33 @@ function startGame() {
     }
 
     moveItem();
-
+   
     if (isHit()) {
-      clearInterval(gameInterval); // ★ループ停止
-      alert("ゲームオーバー！ スコア：" + window.score);
-      location.href = "index.html";
+      clearInterval(gameInterval);
+
+      const game = document.getElementById("game");
+
+      resetObstacle();
+      obstacle.style.left = game.clientWidth + "px";
+
+      if (itemActive) {
+        item.style.left = "-100px";
+        itemActive = false;
+      }
+      // プレイヤー位置リセット
+      position = 0;
+      player.style.bottom = "0px";
+      player.style.left = "50px";
+
+      startBtn.style.display = "block";
+      startBtn.textContent = "もう一度プレイ";
+
+      countdownText.style.display = "block";
+      countdownText.textContent =
+        "ゲームオーバー！ スコア：" + window.score;
     }
+
+
 
   }, 20);
 }
